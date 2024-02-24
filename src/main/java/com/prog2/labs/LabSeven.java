@@ -1,5 +1,7 @@
 package com.prog2.labs;
 
+import java.util.Arrays;
+
 /**
  * @author adinashby
  *
@@ -11,7 +13,11 @@ public class LabSeven {
      *
      */
     public static void main(String[] args) {
-        // this is a test
+
+int[] num={3,3,5,5};
+int l=7;
+         kthSmallestSubarraySum(num, l);
+
     }
 
     /**
@@ -23,33 +29,37 @@ public class LabSeven {
     public static int kthSmallestSubarraySum(int[] nums, int k) {
         
         int n = nums.length;
+        SelectionSort<Integer> sortSelection= new SelectionSort();
+        BinarySearch search= new BinarySearch();
         
-        int[] sums = new int[n*((n+1)/2)];
+        
+        Integer[] sums = new Integer[n*(n+1)/2];
+        int y=0;
+        
         
         for(int i=0; i<n; i++){
-         
             for(int j = i; j<n; j++){
                 
-                for(int y = 0; y<sums.length; y++){
                 int sum = 0;
-                
                     for(int z=i; z<=j; z++){
-                    sum += nums[z];
+                    sum =sum+ nums[z];
+
+                        
+                }sums[y++]=sum;
+          sortSelection.printArray(sums);
+
                     
-                    
-                }sums[y]=sum;
-                
-                
-                
-                
             }
-            
             }
-            
-            
-        }
-        
-        
-        return 0;
+
+                sortSelection.sort(sums); 
+                
+                
+        int kSmallest = search.binarySearch(sums,k);
+                
+                
+                
+                             
+        return kSmallest;
     }
 }
