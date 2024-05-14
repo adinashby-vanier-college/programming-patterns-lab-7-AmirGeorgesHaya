@@ -1,19 +1,60 @@
-name: GitHub Classroom Workflow
-
-on:
-  - push
-  - workflow_dispatch
-
+name: Autograding Tests
+'on':
+- workflow_dispatch
+- repository_dispatch
 permissions:
   checks: write
   actions: read
   contents: read
-
 jobs:
-  build:
-    name: Autograding
+  run-autograding-tests:
     runs-on: ubuntu-latest
     if: github.actor != 'github-classroom[bot]'
     steps:
-      - uses: actions/checkout@v4
-      - uses: education/autograding@v1
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: kthSmallestSubarraySumTest1
+      id: kthsmallestsubarraysumtest1
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: kthSmallestSubarraySumTest1
+        setup-command: gradle clean
+        command: gradle test --tests LabSevenTests.kthSmallestSubarraySumTest1
+        timeout: 1
+        max-score: 25
+    - name: kthSmallestSubarraySumTest2
+      id: kthsmallestsubarraysumtest2
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: kthSmallestSubarraySumTest2
+        setup-command: ''
+        command: gradle test --tests LabSevenTests.kthSmallestSubarraySumTest2
+        timeout: 1
+        max-score: 25
+    - name: kthSmallestSubarraySumTest3
+      id: kthsmallestsubarraysumtest3
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: kthSmallestSubarraySumTest3
+        setup-command: ''
+        command: gradle test --tests LabSevenTests.kthSmallestSubarraySumTest3
+        timeout: 1
+        max-score: 25
+    - name: kthSmallestSubarraySumTest4
+      id: kthsmallestsubarraysumtest4
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: kthSmallestSubarraySumTest4
+        setup-command: ''
+        command: gradle test --tests LabSevenTests.kthSmallestSubarraySumTest4
+        timeout: 1
+        max-score: 25
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        KTHSMALLESTSUBARRAYSUMTEST1_RESULTS: "${{steps.kthsmallestsubarraysumtest1.outputs.result}}"
+        KTHSMALLESTSUBARRAYSUMTEST2_RESULTS: "${{steps.kthsmallestsubarraysumtest2.outputs.result}}"
+        KTHSMALLESTSUBARRAYSUMTEST3_RESULTS: "${{steps.kthsmallestsubarraysumtest3.outputs.result}}"
+        KTHSMALLESTSUBARRAYSUMTEST4_RESULTS: "${{steps.kthsmallestsubarraysumtest4.outputs.result}}"
+      with:
+        runners: kthsmallestsubarraysumtest1,kthsmallestsubarraysumtest2,kthsmallestsubarraysumtest3,kthsmallestsubarraysumtest4
